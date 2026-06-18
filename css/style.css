@@ -1713,6 +1713,7 @@ blockquote {
   .section--lg { padding: var(--space-20) 0; }
 
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }   /* stats: 2-up on mobile */
 
   .hero__title { font-size: var(--text-4xl); }
   .hero__subtitle { font-size: var(--text-base); }
@@ -1942,6 +1943,27 @@ blockquote {
 /* Make every media element behave on small screens (no horizontal overflow) */
 img, video, iframe { max-width: 100%; }
 
+/* Guarantee no horizontal swipe on mobile:
+   - html+body never scroll sideways
+   - grid/flex children may shrink below their content width (stops blow-outs) */
+html, body { overflow-x: hidden; max-width: 100%; }
+.grid > *, .flex > *, .flex-between > * { min-width: 0; }
+.stat-card__number { overflow-wrap: anywhere; }
+
+/* Nav CTA: full label on desktop, short "Book" on narrow phones so the bar never overflows */
+.nav__cta-short { display: none; }
+@media (max-width: 768px) {
+  .nav__inner { padding-left: var(--space-5); padding-right: var(--space-5); }
+  .nav__actions { gap: var(--space-3); }
+}
+@media (max-width: 560px) {
+  .nav__cta-long { display: none; }
+  .nav__cta-short { display: inline; }
+  .nav__logo-sub { display: none; }
+  .nav__logo-text { font-size: var(--text-base); }
+  .brand-logo { width: 36px; height: 36px; }
+}
+
 /* ==========================================================================
    BOTADERM — RESPONSIVE for the new components (mobile-first guarantee)
    ========================================================================== */
@@ -1958,6 +1980,8 @@ img, video, iframe { max-width: 100%; }
 @media (max-width: 480px) {
   .gallery { grid-template-columns: 1fr 1fr; }
   .menu-item { flex-wrap: wrap; gap: var(--space-1); }
+  /* Long button labels wrap instead of overflowing on very narrow phones */
+  .btn { max-width: 100%; white-space: normal; }
 }
 
 /* --------------------------------------------------------------------------
